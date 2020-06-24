@@ -1,14 +1,23 @@
-version: 2.1
-orbs:
-  node: circleci/node@1.1
+version: 2
 jobs:
-  build:
-    executor:
-      name: node/default
-      tag: '10.4'
+  one:
+    docker:
+      - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-      - run: npm run test
+      - run: echo "A first Hello"
+      - run: sleep 25
+  
+  two:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - run: echo "Yo yo yo"
+      - run: sleep 15
+
+workflows:
+  version: 2
+  one_and_two:
+    jobs:
+      - one
+      - two
