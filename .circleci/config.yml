@@ -33,7 +33,7 @@ jobs:
   
   three:
     docker:
-      - image: kshitijkabeer/continuous-integration-ros-ws:0.0.5
+      - image: kshitijkabeer/continuous-integration-ros-ws:0.0.6
     steps:
       - checkout
       - run: ls -a
