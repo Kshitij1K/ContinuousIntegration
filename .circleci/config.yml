@@ -38,6 +38,7 @@ jobs:
       - checkout
       - run: ls -a
       - run: cd ../ && mkdir -p test_ws/src && cp -r project/ /root/test_ws/src/
+      - run: cd ../test_ws/src/ && git clone https://github.com/catkin/catkin_simple
       - run: cd ../test_ws && source /opt/ros/melodic/setup.bash && catkin build
 
 workflows:
