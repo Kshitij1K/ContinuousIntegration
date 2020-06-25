@@ -48,7 +48,7 @@ jobs:
             
   four:
     docker:
-      -image: kshitijkabeer/continuous-integration-ros-ws:0.0.8
+      - image: kshitijkabeer/continuous-integration-ros-ws:0.0.8
     steps:
       - attach_workspace:
           at: /root
