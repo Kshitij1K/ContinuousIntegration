@@ -38,7 +38,7 @@ jobs:
       - run: ls -a
       - run: cd ../ && mkdir -p test_ws/src/$CIRCLE_PROJECT_REPONAME
       - checkout:
-        path: /root/test_ws/src/$CIRCLE_PROJECT_REPONAME
+          path: /root/test_ws/src/$CIRCLE_PROJECT_REPONAME
       - run: cd ../test_ws/ && wstool init src src/$CIRCLE_PROJECT_REPONAME/install/install_https.rosinstall && wstool update -t src
       - run: cd ../test_ws/ && source /opt/ros/melodic/setup.bash && catkin build
 
