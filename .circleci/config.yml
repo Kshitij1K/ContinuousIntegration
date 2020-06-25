@@ -51,7 +51,7 @@ jobs:
       -image: kshitijkabeer/continuous-integration-ros-ws:0.0.8
     steps:
       - attach_workspace:
-        at: /root
+          at: /root
       - run: cd ../test_ws/ && source /opt/ros/melodic/setup.bash && catkin build
                   
 workflows:
@@ -61,4 +61,4 @@ workflows:
       - three
       - four:
           requires:
-            three
+            - three
