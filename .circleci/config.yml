@@ -37,8 +37,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p test_ws/src
-      - run: cd test_ws/src 
-      - run: cd ..
+      - run: cd test_ws
       - run: echo $PWD
       - run: ls -a
       - run: catkin build
