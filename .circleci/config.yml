@@ -35,9 +35,9 @@ jobs:
     docker:
       - image: kshitijkabeer/continuous-integration-ros-ws:0.0.2
     steps:
+      - checkout
       - run: mkdir -p test_ws/src
       - run: cd test_ws/src 
-      - checkout
       - run: cd ..
       - run: catkin build
 
