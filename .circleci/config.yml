@@ -41,10 +41,23 @@ jobs:
           path: /root/test_ws/src/$CIRCLE_PROJECT_REPONAME
       - run: ls ../test_ws/ -a
       - run: cd ../test_ws/ && wstool init src src/$CIRCLE_PROJECT_REPONAME/install_https.rosinstall && wstool update -t src
+      - persist_to_workspace:
+          root: /root
+          paths:
+            - test_ws/*
+            
+  four:
+    docker:
+      -image: kshitijkabeer/continuous-integration-ros-ws:0.0.8
+    steps:
+      - attach_workspace:
+        at: /root
       - run: cd ../test_ws/ && source /opt/ros/melodic/setup.bash && catkin build
-
+                  
 workflows:
   version: 2
   one_and_two:
     jobs:
-      - three
+      - four:
+          requires:
+            three
