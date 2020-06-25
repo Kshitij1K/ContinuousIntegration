@@ -37,7 +37,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p test_ws/src
-      - run: cd test_ws && catkin build
+      - run: cd test_ws && source /opt/ros/melodic/setup.bash && catkin build
 
 workflows:
   version: 2
