@@ -36,7 +36,8 @@ jobs:
       - image: kshitijkabeer/continuous-integration-ros-ws:0.0.5
     steps:
       - checkout
-      - run: mkdir -p test_ws/src && cp -r ContinuousIntegration/ /root/project/test_ws/src/ContinuousIntegration/
+      - run: ls -a
+      - run: cd ../ && mkdir -p test_ws/src && cp -r project/ /root/test_ws/src/
       - run: cd test_ws && source /opt/ros/melodic/setup.bash && catkin build
 
 workflows:
