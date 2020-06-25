@@ -58,6 +58,7 @@ workflows:
   version: 2
   one_and_two:
     jobs:
+      - three
       - four:
           requires:
             three
