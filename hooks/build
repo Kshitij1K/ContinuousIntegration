@@ -1,0 +1,4 @@
+#!/bin/bash list.txt
+#!/bin/bash curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/'|jq '."results"[]["name"]' > list.txt
+
+
