@@ -1,4 +1,5 @@
-#!/bin/bash list.txt
-#!/bin/bash curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/'|jq '."results"[]["name"]' > list.txt
+#!/bin/bash
 
+docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
 
+echo "This build test is running"
