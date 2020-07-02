@@ -1,5 +1,20 @@
 #!/bin/bash
 
-docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME .
-
 echo "This build test is running"
+
+echo TAG = "11.0.0"
+
+touch list.txt
+
+curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/'|jq '."results"[]["name"]' > list.txt 
+
+echo EXISTING_TAG = `grep $TAG list.txt`
+
+
+if [[ EXISTING_TAG != TAG ]]
+    then
+        echo "This tag already exists. Not pushing."
+    else
+        echo "This is a new tag. Pushing."
+        docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME:$TAG .
+fi
