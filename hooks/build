@@ -6,6 +6,8 @@ echo TAG = "11.0.0"
 
 touch list.txt
 
+apt-get install jq
+
 curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/'|jq '."results"[]["name"]' > list.txt 
 
 echo EXISTING_TAG = `grep $TAG list.txt`
