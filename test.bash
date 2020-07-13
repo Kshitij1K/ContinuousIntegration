@@ -6,19 +6,19 @@
 # 	exit 1
 # }
 
-DOCKERREPO=$(git branch | grep \* | sed 's/* deploy\///' | sed 's/* test/\//')
+DOCKERREPO=$(git branch | grep \* | sed 's/* deploy\///' | sed 's/* test\///')
 
-MYVAR=$(grep -oE '\bv([1-9][0-9]*|0)\.([1-9][0-9]*|0)\.([1-9][0-9]*|0)\b' list.txt |
+VERSION=$(grep -oE '\bv([1-9][0-9]*|0)\.([1-9][0-9]*|0)\.([1-9][0-9]*|0)\b' list.txt |
         sed 's/v//')
 
-if [ "$MYVAR" = "" ] ; then
+if [ "$VERSION" = "" ] ; then
     echo "A valid version number was not found in the commit message. Aborting."
     echo "Version number should be written in the following example format: 'v123.123.123'."
     echo "Please run git commit with the '--no-verify' option to skip checking and building the Dockerfile, and pushing the image to DockerHub (Not recommended)"
     exit 1
 fi
 
-echo "Checking whether version $MYVAR already exists on server."
+echo "Checking whether version $VERSION already exists on server."
 
 JQCHECK=$(dpkg -l | grep ' jq ')
 
@@ -34,25 +34,25 @@ if [ "${JQCHECK:-0}" == 0 ] ; then
     fi
 fi
 
-TAGCHECK=$(curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/' | jq '."results"[]["name"]' | grep "$MYVAR" | sed 's/"//g')
+TAGCHECK=$(curl 'https://registry.hub.docker.com/v2/repositories/kshitijkabeer/continuous-integration-ros-ws/tags/' | jq '."results"[]["name"]' | grep "$VERSION" | sed 's/"//g')
 
 if [ "${TAGCHECK:-0}" != 0 ] ; then
-    echo "The tag $MYVAR already exists on server. Please give a different name and try again."
+    echo "The tag $VERSION already exists on server. Please give a different name and try again."
     echo "Or, run git commit with the '--no-verify' option to skip checking and building the Dockerfile, and pushing the image to DockerHub (Not recommended)"
     echo $TAGCHECK
     exit 3
 fi
 
 echo "Version name is unique. Checking whether image already exists locally on computer."
-LOCALCHECK=$(sudo docker images | grep "$DOCKERREPO" | grep "$TAG")
+LOCALCHECK=$(sudo docker images | grep "$DOCKERREPO" | grep "$VERSION")
 
 if [ "${LOCALCHECK:-0}" != 0 ] ; then
     echo "Image already exists on computer."
 
     read -r -p "Do you want to overwrite it? [y/N] " response
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]] ; then
-        echo "Building image with name ariitk/$DOCKERREPO:$MYVAR"
-        if sudo docker build -t ariitk/$DOCKERREPO . ; then
+        echo "Building image with name ariitk/$DOCKERREPO:$VERSION"
+        if sudo docker build -t ariitk/$DOCKERREPO:$VERSION . ; then
             echo "The build succeeded."
         else
             echo "The build failed. Please rectify the Dockerfile and try again."
@@ -65,8 +65,8 @@ if [ "${LOCALCHECK:-0}" != 0 ] ; then
         exit 5
     fi
 else
-    echo "Building image with name ariitk/$DOCKERREPO:$MYVAR"
-    if sudo docker build -t ariitk/$DOCKERREPO . ; then
+    echo "Building image with name ariitk/$DOCKERREPO:$VERSION"
+    if sudo docker build -t ariitk/$DOCKERREPO:$VERSION . ; then
         echo "The build succeeded."
     else
         echo "The build failed. Please rectify the Dockerfile and try again."
@@ -77,7 +77,7 @@ fi
 
 echo "Pushing image to Dockerhub. Please enter your credentials if required."
 
-if sudo docker login && sudo docker push ariitk/$DOCKERREPO:$MYVAR ; then
+if sudo docker login && sudo docker push ariitk/$DOCKERREPO:$VERSION ; then
     echo "Push succeeded. Committing the Dockerfile."
 else 
     echo "Push to Dockerhub failed. Maybe check your internet connection/entire correct credentials"
