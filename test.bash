@@ -38,7 +38,7 @@ fi
 
 TAGS=$(curl 'https://registry.hub.docker.com/v2/repositories/ariitk/'"$DOCKERREPO"'/tags/' | jq '."results"[]["name"]' | sed 's/"//g')
 
-/usr/bin/python3 check_version.py $VERSION $TAGS
+/usr/bin/python3 .git/hooks/check_version.py $VERSION $TAGS
 
 VERSIONCHECK=$?
 
