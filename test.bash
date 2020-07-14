@@ -47,13 +47,12 @@ if [ $VERSIONCHECK -eq 1 ] ; then
 fi
 
 if [ $VERSIONCHECK -eq 2 ] ; then
-    echo "Hello"
     read -r -p "Are you sure you want to push this version? [y/N] " response < /dev/tty
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]] ; then
         echo "Proceeding to build with this version as the tag."
     else
         echo "Aborting. Give another version name, and then try again."
-        echo "Or, run git commit with the '--no-verify' option to skip checking and building the Dockerfile, and pushing the image to DockerHub (Not recommended)"fi
+        echo "Or, run git commit with the '--no-verify' option to skip checking and building the Dockerfile, and pushing the image to DockerHub (Not recommended)"
         exit 3
     fi
 fi
