@@ -5,4 +5,5 @@ RUN echo "hahhahahahahahhaahahhahahahahahaha"
 RUN echo "yoyoyoyo"
 RUN echo "coolcoolcool"
 RUN echo "Final check:"
+RUN echo "Seriously tho. Final."
 # This will fail for sure
