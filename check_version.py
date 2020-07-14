@@ -20,6 +20,15 @@ def main(arg):
     max_version = None
     prev_version = None
 
+    num_args = len(arg)
+
+    if num_args == 2 and new_version == [0, 0, 0]:
+        print ("The version name is unique, and confirms to the semantic versioning system. Proceeding to build with this version as the tag.")
+        return 0
+    elif num_args == 2:
+        print ("Looks like this is a new repository. Please start the versioning with '0.0.0'. Aborting.")
+        print ("Or, run git commit with the '--no-verify' option to skip checking and building the Dockerfile, and pushing the image to DockerHub (Not recommended)") 
+        return 1
     for i in range(2, len(arg)):
         i = arg[i].split('.')
         if (len(i) != 3):
